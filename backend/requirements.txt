@@ -1,0 +1,14 @@
+fastapi==0.115.0
+uvicorn==0.30.6
+scikit-learn==1.5.2
+joblib==1.4.2
+numpy==1.26.4
+pandas==2.2.3
+transformers==4.44.2
+torch==2.4.1
+tldextract==5.1.2
+python-whois==0.9.4
+beautifulsoup4==4.12.3
+pydantic==2.9.2
+python-multipart==0.0.9
+aiohttp==3.10.5

@@ -1,0 +1,387 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PhishGuard — Chrome Extension Popup Stylesheet
+   Professional, modern, dark-themed UI for phishing detection results.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Reset & base ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 380px;
+  min-height: 200px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+               'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  background: #0f1117;
+  color: #e1e4ea;
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ─── Container ─────────────────────────────────────────────────────────── */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #60a5fa;
+}
+
+.logo h1 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #f0f2f5;
+}
+
+.subtitle {
+  display: block;
+  font-size: 10.5px;
+  color: #8b92a5;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+/* Server status dot */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color 0.3s;
+}
+.status-dot.online  { background: #22c55e; box-shadow: 0 0 6px #22c55e88; }
+.status-dot.offline { background: #ef4444; box-shadow: 0 0 6px #ef444488; }
+
+/* ─── Server alert banner ────────────────────────────────────────────────── */
+.server-alert {
+  padding: 8px 10px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 8px;
+  font-size: 11.5px;
+  color: #fca5a5;
+  line-height: 1.4;
+}
+.server-alert code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1px 4px;
+  border-radius: 4px;
+  color: #fef08a;
+}
+
+/* ─── URL bar ───────────────────────────────────────────────────────────── */
+.url-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #1a1d27;
+  border: 1px solid #2a2d3a;
+  border-radius: 8px;
+}
+
+.url-icon { color: #6b7280; flex-shrink: 0; }
+
+.url-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e1e4ea;
+  font-size: 12px;
+  width: 100%;
+  font-family: inherit;
+}
+.url-input::placeholder {
+  color: #6b7280;
+}
+
+.url-text {
+  font-size: 11.5px;
+  color: #9ca3af;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 320px;
+}
+
+/* ─── Scan button ───────────────────────────────────────────────────────── */
+.scan-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 0;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+.scan-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px #3b82f633;
+}
+.scan-btn:active { transform: translateY(0); }
+.scan-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Loading ───────────────────────────────────────────────────────────── */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 0;
+  color: #9ca3af;
+  font-size: 12.5px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid #2a2d3a;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Result card ───────────────────────────────────────────────────────── */
+.result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } }
+
+/* ─── Verdict section ───────────────────────────────────────────────────── */
+.verdict-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #1a1d27;
+  border: 1px solid #2a2d3a;
+}
+
+.shield {
+  flex-shrink: 0;
+  transition: color 0.3s;
+}
+.shield.safe      { color: #22c55e; }
+.shield.warning   { color: #f59e0b; }
+.shield.phishing  { color: #ef4444; }
+.shield.high_risk { color: #dc2626; }
+
+.verdict-label {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.verdict-desc {
+  display: block;
+  font-size: 11.5px;
+  color: #8b92a5;
+  margin-top: 2px;
+}
+
+/* ─── Confidence bar ────────────────────────────────────────────────────── */
+.confidence-section {
+  padding: 10px 14px;
+  background: #1a1d27;
+  border: 1px solid #2a2d3a;
+  border-radius: 10px;
+}
+
+.confidence-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #8b92a5;
+  margin-bottom: 6px;
+}
+
+.confidence-value {
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.confidence-track {
+  width: 100%;
+  height: 6px;
+  background: #2a2d3a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.confidence-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease, background 0.3s;
+  background: #22c55e;
+}
+.confidence-bar.warning   { background: #f59e0b; }
+.confidence-bar.phishing  { background: #ef4444; }
+.confidence-bar.high_risk { background: #dc2626; }
+
+/* ─── Meta row ──────────────────────────────────────────────────────────── */
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.method-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  border-radius: 20px;
+  background: #1e293b;
+  color: #60a5fa;
+  border: 1px solid #334155;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.analysis-time {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* ─── Breakdown ─────────────────────────────────────────────────────────── */
+.breakdown-section,
+.nlp-section,
+.domain-section {
+  padding: 10px 14px;
+  background: #1a1d27;
+  border: 1px solid #2a2d3a;
+  border-radius: 10px;
+}
+
+.breakdown-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #8b92a5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.breakdown-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.breakdown-list li {
+  font-size: 12px;
+  color: #c9cdd6;
+  padding: 4px 0;
+  border-bottom: 1px solid #22252f;
+  line-height: 1.4;
+}
+.breakdown-list li:last-child { border-bottom: none; }
+
+/* ─── NLP analysis ──────────────────────────────────────────────────────── */
+.nlp-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.nlp-score { font-weight: 700; }
+.nlp-method { font-size: 10.5px; color: #6b7280; margin-bottom: 6px; }
+
+/* ─── Domain info ───────────────────────────────────────────────────────── */
+.domain-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.domain-details .domain-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px solid #22252f;
+}
+.domain-details .domain-row:last-child { border-bottom: none; }
+.domain-details .domain-label { color: #8b92a5; }
+.domain-details .domain-value { color: #c9cdd6; font-weight: 500; }
+
+/* ─── Error state ───────────────────────────────────────────────────────── */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px;
+  text-align: center;
+}
+
+.error-icon { font-size: 28px; }
+
+#errorMessage {
+  font-size: 12.5px;
+  color: #9ca3af;
+}
+
+.retry-btn {
+  padding: 6px 20px;
+  background: #1e293b;
+  color: #60a5fa;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.retry-btn:hover { background: #334155; }
+
+/* ─── Footer ────────────────────────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  font-size: 10px;
+  color: #4b5563;
+  padding-top: 4px;
+  border-top: 1px solid #1e2130;
+}
